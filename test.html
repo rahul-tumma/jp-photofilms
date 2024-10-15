@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Shoot Gallery</title>
+    
+    <!-- LightGallery CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lg-video.min.css">
+    
+    <style>
+        #gallery-videojs-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .gallery-item {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="gallery-videojs-demo">
+    <a class="gallery-item"
+        data-lg-size="426x240a"     
+        data-video='{"source": [{"src":"asserts/Model_Shoot/01.mp4", "type":"video/mp4"}], "attributes": {"preload": false, "controls": true}}'
+        data-poster="asserts/Pre_Wedding_Shoot/02.jpg"
+        data-sub-html="<h4>Model Shoot Video</h4><p>A dynamic video showcasing our latest model shoot.</p>"
+    >
+        <img
+            width="300"
+            height="100"
+            class="img-responsive"
+            src="asserts/Pre_Wedding_Shoot/02.jpg"
+            alt="Model Shoot Poster"
+        />
+    </a>
+</div>
+
+<!-- LightGallery and its plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/lightgallery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/plugins/video/lg-video.min.js"></script>
+
+<!-- VideoJS (for advanced video controls) -->
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        lightGallery(document.getElementById('gallery-videojs-demo'), {
+            plugins: [lgVideo],
+            videojs: true,
+            videojsOptions: {
+                muted: true,
+
+            },
+        });
+    });
+</script>
+
+</body>
+</html>

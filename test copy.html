@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Shoot Gallery</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 90%;
+            width: 100%;
+        }
+        .gallery-item {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-thumbnail {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+        }
+        .gallery-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery-item:hover .gallery-info {
+            transform: translateY(0);
+        }
+        h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            max-height: 800px;
+        }
+        .close, .prev, .next {
+            color: #fff;
+            position: absolute;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .close {
+            top: 10px;
+            right: 25px;
+        }
+        .prev, .next {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .prev {
+            left: 25px;
+        }
+        .next {
+            right: 25px;
+        }
+        .modal video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                height: 95%;
+            }
+            .prev, .next {
+                font-size: 25px;
+            }
+            .prev {
+                left: 10px;
+            }
+            .next {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="gallery-grid" id="lightgallery">
+    <a href="asserts/Pre_Wedding_Shoot/01.jpg" class="gallery-item" data-sub-html="<h4>Model Shoot Image 1</h4><p>A stunning image from our latest model shoot.</p>">
+        <img src="asserts/Pre_Wedding_Shoot/01.jpg" alt="Image Thumbnail" class="gallery-thumbnail">
+        <div class="gallery-info">
+            <h4>Model Shoot Image 1</h4>
+            <p>A stunning image from our latest model shoot.</p>
+        </div>
+    </a>
+    <div class="gallery-item video-container" data-video="asserts/Model_Shoot/02.mp4">
+        <video src="asserts/Model_Shoot/02.mp4" class="gallery-thumbnail" loop muted></video>
+        <div class="gallery-info">
+            <h4>Model Shoot Video 2</h4>
+            <p>Elegant poses in a studio setting.</p>
+        </div>
+    </div>
+    <a href="asserts/Pre_Wedding_Shoot/03.jpg" class="gallery-item" data-sub-html="<h4>Model Shoot Image 3</h4><p>Outdoor fashion shoot with natural lighting.</p>">
+        <img src="asserts/Pre_Wedding_Shoot/03.jpg" alt="Image Thumbnail" class="gallery-thumbnail">
+        <div class="gallery-info">
+            <h4>Model Shoot Image 3</h4>
+            <p>Outdoor fashion shoot with natural lighting.</p>
+        </div>
+    </a>
+    <div class="gallery-item video-container" data-video="asserts/Model_Shoot/03.mp4">
+        <video src="asserts/Model_Shoot/03.mp4" class="gallery-thumbnail" loop muted></video>
+        <div class="gallery-info">
+            <h4>Model Shoot Video 4</h4>
+            <p>Behind the scenes of our latest campaign.</p>
+        </div>
+    </div>
+</div>
+
+<div id="videoModal" class="modal">
+    <span class="close">&times;</span>
+    <span class="prev"><i class="fas fa-chevron-left"></i></span>
+    <span class="next"><i class="fas fa-chevron-right"></i></span>
+    <div class="modal-content">
+        <video controls>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/lightgallery.min.js"></script>
+<script>
+    const videoContainers = document.querySelectorAll('.video-container');
+    const modal = document.getElementById('videoModal');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    const prevBtn = document.getElementsByClassName('prev')[0];
+    const nextBtn = document.getElementsByClassName('next')[0];
+    const video = document.querySelector('#videoModal video');
+    let currentVideoIndex = 0;
+
+    lightGallery(document.getElementById('lightgallery'), {
+        selector: 'a'
+    });
+
+    videoContainers.forEach((container, index) => {
+        const thumbnailVideo = container.querySelector('video');
+        thumbnailVideo.addEventListener('mouseenter', () => {
+            thumbnailVideo.play();
+        });
+        thumbnailVideo.addEventListener('mouseleave', () => {
+            thumbnailVideo.pause();
+            thumbnailVideo.currentTime = 0;
+        });
+        container.onclick = function() {
+            currentVideoIndex = index;
+            openVideoModal(this.getAttribute('data-video'));
+        }
+    });
+
+    closeBtn.onclick = closeModal;
+    prevBtn.onclick = showPreviousVideo;
+    nextBtn.onclick = showNextVideo;
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeModal();
+        } else if (event.key === "ArrowLeft") {
+            showPreviousVideo();
+        } else if (event.key === "ArrowRight") {
+            showNextVideo();
+        }
+    });
+
+    function openVideoModal(videoSrc) {
+        video.querySelector('source').src = videoSrc;
+        video.load();
+        modal.style.display = "block";
+        updateNavigationButtons();
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+        video.pause();
+    }
+
+    function showPreviousVideo() {
+        if (currentVideoIndex > 0) {
+            currentVideoIndex--;
+            openVideoModal(videoContainers[currentVideoIndex].getAttribute('data-video'));
+        }
+    }
+
+    function showNextVideo() {
+        if (currentVideoIndex < videoContainers.length - 1) {
+            currentVideoIndex++;
+            openVideoModal(videoContainers[currentVideoIndex].getAttribute('data-video'));
+        }
+    }
+
+    function updateNavigationButtons() {
+        prevBtn.style.display = currentVideoIndex > 0 ? "block" : "none";
+        nextBtn.style.display = currentVideoIndex < videoContainers.length - 1 ? "block" : "none";
+    }
+</script>
+
+</body>
+</html>
